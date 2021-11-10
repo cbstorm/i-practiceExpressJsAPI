@@ -5,6 +5,7 @@ const userSchema = new Schema(
     {
         name: {
             type: String,
+            text: true,
             trim: true,
             required: [true, 'Name is required'],
             minlength: [5, 'Name must have at least 5 characters'],

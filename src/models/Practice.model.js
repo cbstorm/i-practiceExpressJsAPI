@@ -27,6 +27,7 @@ const PracticeSchema = new Schema(
     {
         title: {
             type: String,
+            text: true,
             required: true,
         },
         category: {
