@@ -2,7 +2,6 @@ require('dotenv').config();
 const http = require('http');
 const path = require('path');
 const express = require('express');
-const morgan = require('morgan');
 const app = express();
 const server = http.createServer(app);
 const PORT = process.env.PORT || 9000;
@@ -51,6 +50,7 @@ SpringApiTestConnection();
 app.use(cors(corsOptions));
 //Logger
 if (process.env.NODE_ENV === 'development') {
+    const morgan = require('morgan');
     app.use(morgan('dev'));
 }
 // Serve static file
