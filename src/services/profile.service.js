@@ -24,8 +24,13 @@ exports.getUserProfile = async (userId) => {
 exports.editAvatar = async (userId, image) => {
     try {
         const user = await User.findById(userId);
-        console.log(image);
-        const imagePath = `${process.env.HOST}:${process.env.PORT}/static/images/${image.filename}`;
+        let imagePath;
+        if (process.env.NODE_ENV === 'development') {
+            imagePath = `${process.env.HOST}:${process.env.PORT}/static/images/${image.filename}`;
+        } else {
+            imagePath = `${process.env.HOST}/static/images/${image.filename}`;
+        }
+
         user.avatarUrl = imagePath;
         await user.save();
         return imagePath;
