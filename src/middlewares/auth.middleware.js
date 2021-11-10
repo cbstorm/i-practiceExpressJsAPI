@@ -2,6 +2,7 @@ const {
     verifyAccessToken,
     verifyRefreshToken,
 } = require('../config/jwt.config');
+const User = require('../models/User.model');
 
 exports.authMiddleware = async (req, res, next) => {
     try {
@@ -29,18 +30,19 @@ exports.checkRefreshToken = async (req, res, next) => {
             throw err;
         }
         const decoded = await verifyRefreshToken(refreshToken);
-        const user = {
+        const user = await User.findOne({ _id: decoded._id });
+        if (!user) {
+            const err = new Error('USER_NOT_EXIST');
+            err.statusCode = 400;
+            throw err;
+        }
+        const userData = {
             _id: decoded._id,
             name: decoded.name,
             email: decoded.email,
             avatarUrl: decoded.avatarUrl,
         };
-        if (!user) {
-            const err = new Error('INVALID_REFRESH_TOKEN');
-            err.statusCode = 403;
-            throw err;
-        }
-        req.user = user;
+        req.user = userData;
         next();
     } catch (error) {
         next(error);

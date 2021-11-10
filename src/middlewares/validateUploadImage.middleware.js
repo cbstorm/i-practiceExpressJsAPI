@@ -34,6 +34,7 @@ exports.validateUploadImage = async (req, res, next) => {
             err.statusCode = 400;
             throw err;
         }
+
         next();
     } catch (error) {
         next(error);

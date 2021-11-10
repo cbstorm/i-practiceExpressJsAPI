@@ -35,7 +35,7 @@ const signRefreshToken = async (userdata) => {
         {
             audience: 'i-pratice client',
             issuer: 'i-practice server',
-            expiresIn: '5 days',
+            expiresIn: '2 days',
         }
     );
     return token;

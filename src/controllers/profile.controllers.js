@@ -1,4 +1,3 @@
-const { response } = require('express');
 const responseStatus = require('../constants/responseStatus.constant');
 const profileService = require('../services/profile.service');
 

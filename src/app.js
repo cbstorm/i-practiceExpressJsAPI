@@ -50,11 +50,12 @@ SpringApiTestConnection();
 
 app.use(cors(corsOptions));
 //Logger
-app.use(morgan('dev'));
+if (process.env.NODE_ENV === 'development') {
+    app.use(morgan('dev'));
+}
 // Serve static file
-app.use('/static', express.static(path.join(__dirname, 'public')));
+app.use('/static', express.static(path.join(__dirname, '../', 'public')));
 app.use(express.json());
-
 app.use('/api/auth', authRouters);
 app.use('/api/profile', profileRouters);
 app.use('/api/practice', practiceRouters);
