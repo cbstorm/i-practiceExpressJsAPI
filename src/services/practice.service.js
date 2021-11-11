@@ -142,14 +142,10 @@ exports.getPracticeHaveQuestionList = async (practiceId) => {
 };
 
 exports.deletePractice = async (creatorId, practiceId) => {
-    const records = await Record.find({ practiceId });
-    if (records.length > 0) {
-        await Record.deleteMany(records);
-    }
-    const discussions = await Discussion.find({ practice: practiceId });
-    if (discussions.length > 0) {
-        await Discussion.deleteMany(discussions);
-    }
+    await Record.deleteMany({ practiceId });
+
+    await Discussion.deleteMany({ practice: practiceId });
+
     await Practice.findOneAndDelete({
         _id: practiceId,
         creator: creatorId,
