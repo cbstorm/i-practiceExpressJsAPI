@@ -1,10 +1,11 @@
 const practiceSharings = require('../constants/practiceSharings.constant');
 const {
-    PracticeNoneDetailsDTO,
     PracticeHaveQuestionListDTO,
     PracticeInfoDTO,
 } = require('../dtos/Practice.dto');
+const Discussion = require('../models/Discussion.model');
 const Practice = require('../models/Practice.model');
+const Record = require('../models/Record.model');
 
 exports.createPractice = async (creatorId, practiceData) => {
     await Practice.create({
@@ -141,6 +142,14 @@ exports.getPracticeHaveQuestionList = async (practiceId) => {
 };
 
 exports.deletePractice = async (creatorId, practiceId) => {
+    const records = await Record.find({ practiceId });
+    if (records.length > 0) {
+        await Record.deleteMany(records);
+    }
+    const discussions = await Discussion.find({ practice: practiceId });
+    if (discussions.length > 0) {
+        await Discussion.deleteMany(discussions);
+    }
     await Practice.findOneAndDelete({
         _id: practiceId,
         creator: creatorId,
