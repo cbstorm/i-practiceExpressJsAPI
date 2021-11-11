@@ -59,7 +59,7 @@ exports.getMyPractices = async (creatorId, page, limit) => {
         .skip(skip)
         .limit(limitInt)
         .populate('creator');
-    if (practices > 0) {
+    if (practices.length > 0) {
         const practiceList = practices.map(
             (practice) => new PracticeInfoDTO(practice)
         );
